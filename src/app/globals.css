@@ -1,13 +1,38 @@
+@import 'antd/dist/reset.css';
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 主题颜色 */
+  --color-bg: #ffffff;
+  --color-text: #171717;
+  --color-text-secondary: rgba(0, 0, 0, 0.45);
+  
+  /* 布局 */
+  --container-max-width: 1200px;
+  --container-padding: 16px;
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  
+  /* 字体 */
+  --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-bg: #0a0a0a;
+    --color-text: #ededed;
+    --color-text-secondary: rgba(255, 255, 255, 0.45);
   }
+}
+
+/* 基础样式重置 */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 html,
@@ -17,17 +42,11 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-family: var(--font-family-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 a {
@@ -35,8 +54,25 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+/* 布局容器 */
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* 页面标题组件 */
+.page-header {
+  margin-bottom: var(--spacing-md);
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: var(--spacing-xs);
+}
+
+.page-description {
+  color: var(--color-text-secondary);
+  font-size: 14px;
 }
