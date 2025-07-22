@@ -1,12 +1,9 @@
-import 'reflect-metadata';
 import type { Metadata } from "next";
 import 'antd/dist/reset.css';
 import "./globals.css";
 import MainLayout from "@/components/layouts/MainLayout";
-import { initDatabaseOnServer } from '@/lib/db';
 
-// 初始化数据库
-initDatabaseOnServer().catch(console.error);
+// 数据库初始化已移至 API 路由 /api/db
 
 export const metadata: Metadata = {
   title: "协作任务管理系统",
