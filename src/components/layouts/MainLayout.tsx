@@ -77,7 +77,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div style={{ height: 32, margin: 16, background: 'rgba(255, 255, 255, 0.2)' }} />
+        <p>Cavalry</p>
         <Menu
           theme="dark"
           mode="inline"

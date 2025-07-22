@@ -13,7 +13,10 @@
     "antd": "^5.26.6",
     "bcryptjs": "^2.4.3",
     "class-validator": "^0.14.2",
-    "next": "15.4.2"
+    "next": "15.4.2",
+    "mysql2": "^3.6.5",
+    "reflect-metadata": "^0.2.1",
+    "typeorm": "^0.3.17"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

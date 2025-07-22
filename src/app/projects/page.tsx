@@ -77,7 +77,7 @@ export default function ProjectsPage() {
 
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-2">
-                <Avatar.Group maxCount={3}>
+                <Avatar.Group max={{ count: 3 }}>
                   {project.members.map((member, index) => (
                     <Avatar key={index}>{member[0]}</Avatar>
                   ))}
