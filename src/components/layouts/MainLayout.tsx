@@ -4,49 +4,18 @@ import { MenuFoldOutlined, MenuUnfoldOutlined, ProjectOutlined, DashboardOutline
 import { Layout, Menu, Button, theme, Breadcrumb, Tabs } from 'antd';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 
 const { Header, Sider, Content } = Layout;
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
-  // 获取当前菜单项
-  const getCurrentMenuItem = (pathname: string) => {
-    return menuItems.find(item => item.key === pathname);
-  };
-
-  // 默认标签页
-  const defaultTabs = [
-    { key: '/dashboard', label: '仪表盘' },
-    { key: '/tasks', label: '任务管理' },
-  ];
-  const [tabs, setTabs] = useState(defaultTabs);
-  const [activeTab, setActiveTab] = useState('/dashboard');
-
-  // 处理标签页关闭
-  const handleTabClose = (targetKey: string) => {
-    const newTabs = tabs.filter(tab => tab.key !== targetKey);
-    if (newTabs.length && targetKey === activeTab) {
-      const lastTab = newTabs[newTabs.length - 1];
-      setActiveTab(lastTab.key);
-    }
-    setTabs(newTabs);
-  };
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
-
-  // 监听路由变化，更新标签页
-  useEffect(() => {
-    const currentItem = getCurrentMenuItem(pathname);
-    if (currentItem && !tabs.find(tab => tab.key === pathname)) {
-      setTabs([...tabs, { key: pathname, label: currentItem.label.props.children }]);
-    }
-    setActiveTab(pathname);
-  }, [pathname]);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const menuItems = [
+  const menuItems = useMemo(() => [
     {
       key: '/dashboard',
       icon: <DashboardOutlined />,
@@ -72,7 +41,48 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       icon: <SettingOutlined />,
       label: <Link href="/settings">系统设置</Link>,
     },
-  ];
+  ], []);
+
+  // 获取当前菜单项
+  const getCurrentMenuItem = useCallback((pathname: string) => {
+    return menuItems.find(item => item.key === pathname);
+  }, [menuItems]);
+
+  // 默认标签页
+  const defaultTabs = useMemo(() => [
+    { key: '/dashboard', label: '仪表盘' },
+    { key: '/tasks', label: '任务管理' },
+  ], []);
+
+  const [tabs, setTabs] = useState(defaultTabs);
+  const [activeTab, setActiveTab] = useState('/dashboard');
+
+  // 处理标签页关闭
+  const handleTabClose = useCallback((targetKey: string) => {
+    setTabs(prevTabs => {
+      const newTabs = prevTabs.filter(tab => tab.key !== targetKey);
+      if (newTabs.length && targetKey === activeTab) {
+        const lastTab = newTabs[newTabs.length - 1];
+        setActiveTab(lastTab.key);
+      }
+      return newTabs;
+    });
+  }, [activeTab]);
+
+  // 监听路由变化，更新标签页
+  useEffect(() => {
+    const currentItem = getCurrentMenuItem(pathname);
+    if (!currentItem) return;
+
+    setActiveTab(pathname);
+    
+    setTabs(prevTabs => {
+      if (prevTabs.some(tab => tab.key === pathname)) {
+        return prevTabs;
+      }
+      return [...prevTabs, { key: pathname, label: currentItem.label.props.children }];
+    });
+  }, [pathname, getCurrentMenuItem]);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>

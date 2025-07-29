@@ -13,4 +13,18 @@ export const AppDataSource = new DataSource({
   entities: [User, Project, Task, Team],
   migrations: [],
   subscribers: [],
+  // 连接池配置
+  extra: {
+    connectionLimit: 10,
+    queueLimit: 0,
+    waitForConnections: true
+  },
+  // 查询缓存配置
+  cache: {
+    duration: 60000, // 缓存持续时间，单位毫秒
+    type: "database",
+    options: {
+      max: 100 // 最大缓存条目数
+    }
+  }
 });

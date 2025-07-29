@@ -5,10 +5,6 @@ import { Card, Row, Col, Statistic } from 'antd';
 import { UserOutlined, ProjectOutlined, CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 
 export default function DashboardPage() {
-  useEffect(() => {
-    // 初始化数据库
-    fetch('/api/db').catch(console.error);
-  }, []);
 
   return (
     <div className="p-6">

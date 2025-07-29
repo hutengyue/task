@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import 'antd/dist/reset.css';
 import "./globals.css";
 import MainLayout from "@/components/layouts/MainLayout";
+import { initializeDatabase } from '@/lib/db/init';
 
-// 数据库初始化已移至 API 路由 /api/db
+// 在服务端初始化数据库
+initializeDatabase().catch(console.error);
 
 export const metadata: Metadata = {
   title: "协作任务管理系统",
